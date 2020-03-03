@@ -22,6 +22,9 @@ app_config = {
     'BETWEEN_NODES_WAIT': int(os.getenv('BETWEEN_NODES_WAIT', 0)),
     'RUN_MODE': int(os.getenv('RUN_MODE', 1)),
     'DRY_RUN': str_to_bool(os.getenv('DRY_RUN', False)),
-    'EXCLUDE_NODE_LABEL_KEY': 'spotinst.io/node-lifecycle',
-    'EXTRA_DRAIN_ARGS': os.getenv('EXTRA_DRAIN_ARGS', '').split()
+    'EXTRA_DRAIN_ARGS': os.getenv('EXTRA_DRAIN_ARGS', '').split(),
+    'NODE_LABEL_KEY': os.getenv('NODE_LABEL_KEY', ''),
+    'NODE_LABEL_VALUE': os.getenv('NODE_LABEL_VALUE', ''),
+    'EXCLUDED_ASG': os.getenv('EXCLUDED_ASG', '').split(),
+    'INCLUDED_ASG': os.getenv('INCLUDED_ASG', '').split()
 }

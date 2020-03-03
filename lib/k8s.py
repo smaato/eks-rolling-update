@@ -7,7 +7,7 @@ from lib.logger import logger
 from config import app_config
 
 
-def get_k8s_nodes(exclude_node_label_key=app_config["EXCLUDE_NODE_LABEL_KEY"]):
+def get_k8s_nodes(node_label_key=app_config["NODE_LABEL_KEY"], node_label_value=app_config["NODE_LABEL_VALUE"]):
     """
     Returns a list of kubernetes nodes
     """
@@ -15,11 +15,12 @@ def get_k8s_nodes(exclude_node_label_key=app_config["EXCLUDE_NODE_LABEL_KEY"]):
     k8s_api = client.CoreV1Api()
     logger.info("Getting k8s nodes...")
     response = k8s_api.list_node()
-    if exclude_node_label_key is not None:
+    if node_label_key is not None:
         nodes = []
         for node in response.items:
-            if exclude_node_label_key not in node.metadata.labels:
-                nodes.append(node)
+            if node_label_key in node.metadata.labels:
+                if node.metadata.labels[node_label_key] == node_label_value:
+                    nodes.append(node)
         response.items = nodes
     logger.info("Current k8s node count is {}".format(len(response.items)))
     return response.items

@@ -19,7 +19,13 @@ def get_asgs(cluster_tag):
     )
     asg_query = "AutoScalingGroups[] | [?contains(Tags[?Key==`kubernetes.io/cluster/{}`].Value, `owned`)]".format(cluster_tag)
     # filter for only asgs with kube cluster tags
-    filtered_asgs = page_iterator.search(asg_query)
+    eks_asgs = page_iterator.search(asg_query)
+    if app_config['INCLUDED_ASG']:
+        filtered_asgs = [asg for asg in eks_asgs if asg['AutoScalingGroupName'] in app_config['INCLUDED_ASG']]
+    elif app_config['EXCLUDED_ASG']:
+        filtered_asgs = [asg for asg in eks_asgs if asg['AutoScalingGroupName'] not in app_config['EXCLUDED_ASG']]
+    else:
+        filtered_asgs = eks_asgs
     return filtered_asgs
 
 
