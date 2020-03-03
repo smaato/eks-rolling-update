@@ -108,6 +108,12 @@ eks_rolling_update.py -c my-eks-cluster
 | RUN_MODE                  | See Run Modes section below                                                                                           | 1                                        |
 | DRY_RUN                   | If True, only a query will be run to determine which worker nodes are outdated without running an update operation    | False                                    |
 | EXTRA_DRAIN_ARGS          | Additional space-delimited args to supply to the `kubectl drain` function, e.g `--force=true`. See `kubectl drain -h` | ""                                       |
+| NODE_LABEL_KEY            | Node label key to filter against                                                                                      | ""                                       |
+| NODE_LABEL_VALUE          | Node label value to filter against                                                                                    | ""                                       |
+| EXCLUDED_ASG              | List of ASGs that are to be skipped during the update process                                                         | ""                                       |
+| INCLUDED_ASG              | List of ASGs that should be upgraded                                                                                  | ""                                       |
+
+**NOTE:** `NODE_LABEL_KEY`, `NODE_LABEL_VALUE`, `EXCLUDED_ASG` and `INCLUDED_ASG` work in conjunction. ASGs selected for upgrade process using `INCLUDED_ASG` or `EXCLUDED_ASG` should be reflected by selected nodes within the cluster using `NODE_LABEL_VALUE` and `NODE_LABEL_KEY`.
 
 ## Run Modes
 There are a number of different values which can be set for the `RUN_MODE` environment variable.
